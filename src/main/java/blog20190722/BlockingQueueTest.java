@@ -1,11 +1,14 @@
 package blog20190722;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Random;
 import java.util.concurrent.*;
 
 /**
  * created by tianfeng on 2019/7/25
  */
+@Slf4j
 public class BlockingQueueTest {
 
 
@@ -41,6 +44,6 @@ public class BlockingQueueTest {
         countDownLatch.countDown();
         putService.shutdown();
         takeService.shutdown();
-        System.out.println("===========queue==============\ntaketimes:"+(queue).getTakeTimes()+" puttimes:"+(queue).getPutTimes());
+        log.info("===========queue==============\ntaketimes:"+(queue).getTakeTimes()+" puttimes:"+(queue).getPutTimes());
     }
 }

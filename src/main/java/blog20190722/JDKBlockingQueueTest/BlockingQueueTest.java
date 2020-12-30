@@ -1,10 +1,13 @@
 package blog20190722.JDKBlockingQueueTest;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.*;
 
 /**
  * created by tianfeng on 2019/7/26
  */
+@Slf4j
 public class BlockingQueueTest {
     public static void main(String[] args) {
         TestHandler testHandler = new TestHandler();
@@ -38,6 +41,6 @@ public class BlockingQueueTest {
         countDownLatch.countDown();
         putservice.shutdown();
         getservice.shutdown();
-        System.out.println("takeTimes:"+testHandler.takeTimes+ " putTimes:"+testHandler.putTimes);
+        log.info("takeTimes:"+testHandler.takeTimes+ " putTimes:"+testHandler.putTimes);
     }
 }
