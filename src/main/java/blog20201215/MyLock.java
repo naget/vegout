@@ -18,9 +18,10 @@ public class MyLock {
     public static int count = 0;
     private static int expireTime = 10;
     private static String lockKey = "desc";
+    private static String lockValue = "lockValue";
 
     public void decr() {
-        if (RedisPoolUtil.setNxPx(lockKey, "1", expireTime)) {
+        if (RedisPoolUtil.setNxPx(lockKey, lockValue, expireTime)) {
             try {
                 if (count < 10) {
                     //业务处理...
@@ -40,7 +41,7 @@ public class MyLock {
     }
 
     public void decr1() {
-        if (RedisPoolUtil.setNxPx(lockKey, "1", expireTime)) {
+        if (RedisPoolUtil.setNxPx(lockKey, lockValue, expireTime)) {
             Thread t = null;
             try {
                 t = daemon(Thread.currentThread());
@@ -195,12 +196,6 @@ public class MyLock {
         });
         t.start();
         return t;
-    }
-
-    public static void main(String[] args) {
-        Map<String,String> map = new ConcurrentHashMap<>();
-        map.put("13e",null);
-        System.out.println(map.get("13e"));
     }
 
 
