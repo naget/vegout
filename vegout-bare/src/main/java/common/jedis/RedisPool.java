@@ -1,10 +1,12 @@
 package common.jedis;
 
 import common.utils.PropertiesUtil;
+import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+@Slf4j
 public class RedisPool {
     private static JedisPool pool;//jedis连接池
     private static Integer maxTotal = Integer.parseInt(PropertiesUtil.getProperty("redis.max.total","200")); //最大连接数
@@ -31,10 +33,14 @@ public class RedisPool {
 
         pool = new JedisPool(config,redisIp,redisPort,1000*2);
     }
-	
-	//静态代码块，初始化Redis池
+
+    //静态代码块，初始化Redis池
     static{
-        initPool();
+        try {
+            initPool();
+        }catch (Exception e){
+            log.error("redispool初始化异常:",e);
+        }
     }
 
     public static Jedis getJedis(){

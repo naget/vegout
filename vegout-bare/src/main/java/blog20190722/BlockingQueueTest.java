@@ -2,7 +2,6 @@ package blog20190722;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Random;
 import java.util.concurrent.*;
 
 /**

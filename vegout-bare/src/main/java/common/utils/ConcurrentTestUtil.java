@@ -1,6 +1,7 @@
 package common.utils;
 
-import blog20201215.MyLock;
+import blog20201215.*;
+import blog20210109.Limiter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
@@ -13,8 +14,8 @@ public class ConcurrentTestUtil {
     //请求总数
     public static int clientTotal=5000;
     //同时并发执行的线程数
-    public static int threadTotal=1500;
     public static MyLock myLock = new MyLock();
+    private static Limiter limiter = new Limiter();
     public static void main(String []args) throws InterruptedException {
 
         //定义线程池
@@ -24,8 +25,8 @@ public class ConcurrentTestUtil {
         for(int i=0;i<clientTotal;i++) {
             executorService.execute(() -> {
                 try {
-                    countDownLatch.countDown();
                     doSomething();
+                    countDownLatch.countDown();
                 } catch (Exception e) {
                     log.error("exception",e);
                 }
@@ -33,10 +34,10 @@ public class ConcurrentTestUtil {
         }
         countDownLatch.await();
         executorService.shutdown();;
-        myLock.result();
+        limiter.result();
     }
 
     private static void doSomething(){
-        myLock.decrV4();
-    }
+    limiter.limitTest(10L);
+        }
 }
